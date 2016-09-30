@@ -388,6 +388,8 @@ angular.module('openshiftConsole')
                   access_token: AuthService.UserStore().getToken()
                 });
 
+                // better - get use_cdm and project_prefix from config file
+                // best - query elasticsearch? kibana? to see if using common data model
                 $scope.$watchGroup(['context.project.metadata.name', 'options.container', 'name'], function() {
                   angular.extend($scope, {
                     // The archive URL violates angular's built in same origin policy.
@@ -397,7 +399,9 @@ angular.module('openshiftConsole')
                                         namespaceUid: $scope.context.project.metadata.uid,
                                         podname: $scope.name,
                                         containername: $scope.options.container,
-                                        backlink: URI.encode($window.location.href)
+                                        backlink: URI.encode($window.location.href),
+                                        use_cdm: true,
+                                        project_prefix: 'project.'
                                       }))
                   });
                 });

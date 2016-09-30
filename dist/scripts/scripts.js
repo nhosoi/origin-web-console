@@ -9406,7 +9406,9 @@ namespace:j.context.project.metadata.name,
 namespaceUid:j.context.project.metadata.uid,
 podname:j.name,
 containername:j.options.container,
-backlink:URI.encode(c.location.href)
+backlink:URI.encode(c.location.href),
+use_cdm:!0,
+project_prefix:"project."
 }))
 });
 }));
@@ -11904,7 +11906,7 @@ var e = new URI();
 _.each(c, function(a) {
 e.addSearch(a);
 }), d.open(e.toString(), "_blank");
-}, i = _.template([ "/#/discover?", "_g=(", "time:(", "from:now-1w,", "mode:relative,", "to:now", ")", ")", "&_a=(", "columns:!(kubernetes_container_name,message),", "index:'<%= namespace %>.<%= namespaceUid %>.*',", "query:(", "query_string:(", "analyze_wildcard:!t,", 'query:\'kubernetes_pod_name:"<%= podname %>" AND kubernetes_namespace_name:"<%= namespace %>"\'', ")", "),", "sort:!(time,desc)", ")", "#console_container_name=<%= containername %>", "&console_back_url=<%= backlink %>" ].join("")), j = function(a) {
+}, i = _.template([ "/#/discover?", "_g=(", "time:(", "from:now-1w,", "mode:relative,", "to:now", ")", ")", "&_a=(", "columns:!(kubernetes<%= use_cdm ? '.' : '_' %>container_name,message),", "index:'<%= project_prefix %><%= namespace %>.<%= namespaceUid %>.*',", "query:(", "query_string:(", "analyze_wildcard:!t,", "query:'kubernetes<%= use_cdm ? '.' : '_' %>pod_name:\"<%= podname %>\" AND kubernetes<%= use_cdm ? '.' : '_' %>namespace_name:\"<%= namespace %>\"'", ")", "),", "sort:!(@timestamp,desc)", ")", "#console_container_name=<%= containername %>", "&console_back_url=<%= backlink %>" ].join("")), j = function(a) {
 return i(a);
 };
 return {
