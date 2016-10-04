@@ -390,6 +390,9 @@ angular.module('openshiftConsole')
 
                 // better - get use_cdm and project_prefix from config file
                 // best - query elasticsearch? kibana? to see if using common data model
+                // if not using cdm, then use_cdm: false, project_prefix: '', time_field: 'time'
+                // note the embedded single quotes in '@timestamp' - kibana needs the quotes
+                // because of the '@' character - not needed if using 'time'
                 $scope.$watchGroup(['context.project.metadata.name', 'options.container', 'name'], function() {
                   angular.extend($scope, {
                     // The archive URL violates angular's built in same origin policy.
@@ -401,7 +404,8 @@ angular.module('openshiftConsole')
                                         containername: $scope.options.container,
                                         backlink: URI.encode($window.location.href),
                                         use_cdm: true,
-                                        project_prefix: 'project.'
+                                        project_prefix: 'project.',
+                                        time_field: '\'@timestamp\''
                                       }))
                   });
                 });

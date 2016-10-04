@@ -73,7 +73,7 @@ angular.module('openshiftConsole')
               "query:'kubernetes<%= use_cdm ? '.' : '_' %>pod_name:\"<%= podname %>\" AND kubernetes<%= use_cdm ? '.' : '_' %>namespace_name:\"<%= namespace %>\"'",
             ")",
           "),",
-          "sort:!(@timestamp,desc)",
+          "sort:!(<%= time_field %>,desc)",
         ")",
         // NOTE: slightly older versions of kibana require openshift_ prefix, not console_
         "#console_container_name=<%= containername %>",
